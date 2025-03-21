@@ -19,7 +19,7 @@ const {
   readSqlFile,
 } = require("./bigquery/query")
 const { table, getTables } = require("./bigquery/table")
-const { jobDone } = require("./bigquery/job")
+const { jobDone, jobMetadata } = require("./bigquery/job")
 const { logErrors } = require("./bigquery/error")
 
 exports.dataset = dataset
@@ -31,4 +31,5 @@ exports.executeSqlFile = executeSqlFile
 exports.existsSqlFile = existsSqlFile
 exports.readSqlFile = readSqlFile
 exports.jobDone = jobDone
+exports.jobMetadata = jobMetadata
 exports.logErrors = logErrors
