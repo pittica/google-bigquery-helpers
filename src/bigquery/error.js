@@ -1,4 +1,4 @@
-// Copyright 2024 Pittica S.r.l.
+// Copyright 2024-2025 Pittica S.r.l.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,23 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+const log = require("@pittica/logger-helpers")
+
 /**
- * Indicates whether the given jobs has been done.
+ * Handles catch statement and logs errore.
  *
- * @param {Array} jobs BigQuery jobs.
- * @returns A value indicating whether the given jobs has been done.
+ * @param {object} error Error object.
+ * @returns {boolean} Always returns "False".
  */
-exports.jobDone = (jobs) => {
-  let done = false
+exports.logErrors = ({ code, errors }) => {
+  if (errors) {
+    errors.map(({ message, reason }) =>
+      log.error([code || reason, message])
+    )
+  }
 
-  jobs.forEach(({ status }) => {
-    if (
-      typeof status !== "undefined" &&
-      status.state.toUpperCase() === "DONE"
-    ) {
-      done = true
-    }
-  })
-
-  return done
+  return false
 }

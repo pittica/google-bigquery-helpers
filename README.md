@@ -15,7 +15,7 @@ This project uses [BigQuery](https://cloud.google.com/bigquery/docs) libraries.
 
 This project is licensed.
 
-Copyright 2024 **Pittica S.r.l.**.
+Copyright 2024-2025 **Pittica S.r.l.**.
 
 - [pittica.com](https://pittica.com)
 - [info@pittica.com](mailto:info@pittica.com)

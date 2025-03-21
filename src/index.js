@@ -1,4 +1,4 @@
-// Copyright 2024 Pittica S.r.l.
+// Copyright 2024-2025 Pittica S.r.l.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,11 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const { dataset, getDataset, cleanDataset } = require("./dataset")
-const { executeSqlFile, existsSqlFile, readSqlFile } = require("./query")
-const { table, getTables } = require("./table")
-const { jobDone } = require("./job")
-const { logErrors } = require("./error")
+const { dataset, getDataset, cleanDataset } = require("./bigquery/dataset")
+const {
+  executeSqlFile,
+  existsSqlFile,
+  readSqlFile,
+} = require("./bigquery/query")
+const { table, getTables } = require("./bigquery/table")
+const { jobDone } = require("./bigquery/job")
+const { logErrors } = require("./bigquery/error")
 
 exports.dataset = dataset
 exports.getDataset = getDataset

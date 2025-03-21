@@ -1,7 +1,7 @@
 {
   "name": "@pittica/google-bigquery-helpers",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Helpers for Google Cloud BigQuery.",
   "main": "dist/index.js",
   "scripts": {
@@ -25,13 +25,13 @@
   },
   "homepage": "https://github.com/pittica/google-bigquery-helpers#README.md",
   "dependencies": {
-    "@google-cloud/bigquery": "^7.9.1",
+    "@google-cloud/bigquery": "^7.9.3",
     "@pittica/logger-helpers": "^0.9.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.25.9",
+    "@babel/cli": "^7.26.4",
     "mkdirp": "^3.0.1",
-    "prettier": "^3.3.3",
+    "prettier": "^3.5.3",
     "rimraf": "^6.0.1"
   }
 }
