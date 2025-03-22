@@ -51,7 +51,7 @@ exports.jobMetadata = (fields = null, location = "us-central1") => {
     allowQuotedNewlines: true,
   }
 
-  if (schema) {
+  if (fields) {
     metadata.schema = { fields }
   }
 
