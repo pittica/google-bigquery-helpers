@@ -12,13 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const { dataset, getDataset, cleanDataset } = require("./bigquery/dataset")
-const {
-  executeSqlFile,
-  existsSqlFile,
-  readSqlFile,
-} = require("./bigquery/query")
-const { table, getTables } = require("./bigquery/table")
+const { dataset, getDataset, cleanDataset } = require("./dataset/dataset")
+const { toString } = require("./dataset/schema")
+const { table, getTables } = require("./dataset/table")
+const { execute, exists, read } = require("./sql/file")
 const { jobDone, jobMetadata } = require("./bigquery/job")
 const { logErrors } = require("./bigquery/error")
 
@@ -27,9 +24,12 @@ exports.getDataset = getDataset
 exports.cleanDataset = cleanDataset
 exports.table = table
 exports.getTables = getTables
-exports.executeSqlFile = executeSqlFile
-exports.existsSqlFile = existsSqlFile
-exports.readSqlFile = readSqlFile
+exports.executeSqlFile = execute
+exports.existsSqlFile = exists
+exports.readSqlFile = read
 exports.jobDone = jobDone
 exports.jobMetadata = jobMetadata
 exports.logErrors = logErrors
+exports.schema = {
+  toString,
+}

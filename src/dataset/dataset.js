@@ -24,7 +24,7 @@ const { getTables } = require("./table")
  * @param {object} options Creation options.
  * @returns {Dataset} The dataset with the given name.
  */
-exports.dataset = async (client, name, options) => {
+exports.dataset = async (client, name, options = {}) => {
   const dataset = client.dataset(name)
   const [status] = await dataset.exists()
 
@@ -41,15 +41,20 @@ exports.dataset = async (client, name, options) => {
 /**
  * Gets the dataset.
  *
- * @param {string} id Dataset name.
+ * @param {string|Dataset} dataset Dataset ID or instance.
+ * @param {object} options Creation options.
  * @returns {Dataset} Dataset object.
  */
-exports.getDataset = async (id) => {
-  const bigquery = new BigQuery()
+exports.getDataset = async (dataset, options = {}) => {
+  if (typeof dataset === "string") {
+    const bigquery = new BigQuery()
 
-  const [ds] = await this.dataset(bigquery, id)
+    const [ds] = await this.dataset(bigquery, dataset, options)
 
-  return ds
+    return ds
+  } else {
+    return dataset
+  }
 }
 
 /**

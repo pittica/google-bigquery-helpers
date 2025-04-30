@@ -12,18 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const log = require("@pittica/logger-helpers")
-
 /**
- * Handles catch statement and logs errore.
+ * Converts the given schema to its string representation.
  *
- * @param {object} error Error object.
- * @returns {boolean} Always returns "False".
+ * @param {Array} schema An array of objects which contains schema definition.
+ * @returns {string} String representation of the given schema.
  */
-exports.logErrors = ({ code, errors }) => {
-  if (errors) {
-    errors.map(({ message, reason }) => log.error([code || reason, message]))
-  }
-
-  return false
-}
+exports.toString = async (schema) =>
+  schema.map(({ name, type }) => `${name}:${type}`).join(", ")

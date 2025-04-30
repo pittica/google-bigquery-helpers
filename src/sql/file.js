@@ -13,7 +13,7 @@
 // limitations under the License.
 
 const fs = require("fs")
-const { logErrors } = require("./error")
+const { logErrors } = require("../bigquery/error")
 
 /**
  * Returns the SQL script related to the given name.
@@ -22,8 +22,8 @@ const { logErrors } = require("./error")
  * @param {BigQuery} client BigQuery client.
  * @returns {boolean} A value indicating whether the SQL script has been executed.
  */
-exports.executeSqlFile = async (filepath, client, params) => {
-  const query = this.readSqlFile(filepath)
+exports.execute = async (filepath, client, params) => {
+  const query = this.read(filepath)
 
   if (query) {
     const [job] = await client.createQueryJob({
@@ -42,6 +42,7 @@ exports.executeSqlFile = async (filepath, client, params) => {
 
     return done
   }
+
   return false
 }
 
@@ -51,7 +52,7 @@ exports.executeSqlFile = async (filepath, client, params) => {
  * @param {string} filepath Path of the SQL file.
  * @returns {boolean} A value indicating whether the given SQL script file exists.
  */
-exports.existsSqlFile = (filepath) => this.readSqlFile(filepath) !== null
+exports.exists = (filepath) => this.read(filepath) !== null
 
 /**
  * Reads the file data.
@@ -59,7 +60,7 @@ exports.existsSqlFile = (filepath) => this.readSqlFile(filepath) !== null
  * @param {string} filepath Path of the SQL file.
  * @returns {string} SQL file data.
  */
-exports.readSqlFile = (filepath) => {
+exports.read = (filepath) => {
   if (fs.existsSync(filepath)) {
     const file = require.resolve(filepath)
 
