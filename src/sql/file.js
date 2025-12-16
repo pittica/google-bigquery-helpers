@@ -23,7 +23,7 @@ const { logErrors } = require("../bigquery/error")
  * @returns {boolean} A value indicating whether the SQL script has been executed.
  */
 exports.execute = async (filepath, client, params) => {
-  const query = this.read(filepath)
+  const query = exports.read(filepath)
 
   if (query) {
     const [job] = await client.createQueryJob({
@@ -52,7 +52,7 @@ exports.execute = async (filepath, client, params) => {
  * @param {string} filepath Path of the SQL file.
  * @returns {boolean} A value indicating whether the given SQL script file exists.
  */
-exports.exists = (filepath) => this.read(filepath) !== null
+exports.exists = (filepath) => exports.read(filepath) !== null
 
 /**
  * Reads the file data.

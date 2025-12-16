@@ -52,7 +52,7 @@ exports.getDataset = async (dataset, options = {}) => {
   if (typeof dataset === "string") {
     const bigquery = new BigQuery()
 
-    const [ds] = await this.dataset(bigquery, dataset, options)
+    const [ds] = await exports.dataset(bigquery, dataset, options)
 
     return ds
   } else {
