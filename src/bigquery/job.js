@@ -16,7 +16,7 @@
  * Indicates whether the given jobs has been done.
  *
  * @param {Array} jobs BigQuery jobs.
- * @returns A value indicating whether the given jobs has been done.
+ * @returns {boolean} A value indicating whether the given jobs has been done.
  */
 exports.jobDone = (jobs) => {
   let done = false

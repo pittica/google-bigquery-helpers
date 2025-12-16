@@ -21,7 +21,7 @@ const { BigQuery } = require("@google-cloud/bigquery")
  * @param {string} name ID or name.
  * @param {object} options Creation options.
  * @param {object} keys Keys options. Object can contains primary and foreign.
- * @returns The table with the given name.
+ * @returns {object|Array} The table with the given name.
  */
 exports.table = async (dataset, name, options, keys) => {
   const table = dataset.table(name)
