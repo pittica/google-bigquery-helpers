@@ -13,38 +13,19 @@
 // limitations under the License.
 
 const fs = require("fs")
-const { logErrors } = require("../bigquery/error")
+const path = require("path")
+const { execute: executeText } = require("./text")
 
 /**
- * Returns the SQL script related to the given name.
+ * Executes the SQL script related to the given name.
  *
- * @param {object} filepath Path of the SQL file.
+ * @param {string} filepath Path of the SQL file.
  * @param {BigQuery} client BigQuery client.
+ * @param {object} params Execution parameters.
  * @returns {boolean} A value indicating whether the SQL script has been executed.
  */
-exports.execute = async (filepath, client, params) => {
-  const query = exports.read(filepath)
-
-  if (query) {
-    const [job] = await client.createQueryJob({
-      query,
-      params,
-    })
-
-    const results = await job.getQueryResults().catch(logErrors)
-    let done = false
-
-    results.forEach(({ jobComplete }) => {
-      if (typeof jobComplete !== "undefined" && jobComplete === true) {
-        done = true
-      }
-    })
-
-    return done
-  }
-
-  return false
-}
+exports.execute = async (filepath, client, params = {}) =>
+  executeText(exports.read(filepath), client, params)
 
 /**
  * Determines whether the given SQL script file exists.
@@ -58,14 +39,33 @@ exports.exists = (filepath) => exports.read(filepath) !== null
  * Reads the file data.
  *
  * @param {string} filepath Path of the SQL file.
+ * @param {string} encoding Encoding.
  * @returns {string} SQL file data.
  */
-exports.read = (filepath) => {
+exports.read = (filepath, encoding = "utf8") => {
   if (fs.existsSync(filepath)) {
     const file = require.resolve(filepath)
 
-    return fs.readFileSync(file, "utf8")
+    return fs.readFileSync(file, encoding)
   }
 
   return null
+}
+
+/**
+ * Executes the file in the folder matched with the given files.
+ *
+ * @param {string} base Base path.
+ * @param {Array} files File names.
+ * @param {object} params Execution parameters.
+ * @returns {boolean} A value indicating whether the SQL script has been executed.
+ */
+exports.folder = async (base, files = [], params = {}) => {
+  const contents = new Set(fs.readdirSync(base))
+  const allowed = files.filter((item) => contents.has(item))
+  const sql = allowed
+    .map((file) => fs.readFileSync(path.join(base, file)))
+    .join("\n")
+
+  return executeText(sql, client, params)
 }
