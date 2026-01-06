@@ -15,7 +15,13 @@
 const { dataset, getDataset, cleanDataset } = require("./dataset/dataset")
 const { toString } = require("./dataset/schema")
 const { table, getTables } = require("./dataset/table")
-const { execute, exists, read } = require("./sql/file")
+const {
+  execute: executeSqlFile,
+  exists,
+  read,
+  folder: executeSqlFolder,
+} = require("./sql/file")
+const { execute: executeSqlText } = require("./sql/text")
 const { jobDone, jobMetadata } = require("./bigquery/job")
 const { logErrors } = require("./bigquery/error")
 
@@ -24,7 +30,9 @@ exports.getDataset = getDataset
 exports.cleanDataset = cleanDataset
 exports.table = table
 exports.getTables = getTables
-exports.executeSqlFile = execute
+exports.executeSqlText = executeSqlText
+exports.executeSqlFile = executeSqlFile
+exports.executeSqlFolder = executeSqlFolder
 exports.existsSqlFile = exists
 exports.readSqlFile = read
 exports.jobDone = jobDone
