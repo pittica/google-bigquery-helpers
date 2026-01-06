@@ -1,7 +1,7 @@
 {
   "name": "@pittica/google-bigquery-helpers",
   "private": false,
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "Helpers for Google Cloud BigQuery.",
   "main": "dist/index.js",
   "scripts": {

@@ -30,15 +30,18 @@ exports.execute = async (query, client, params = {}) => {
     })
 
     const results = await job.getQueryResults().catch(logErrors)
-    let done = false
 
-    results.forEach(({ jobComplete }) => {
-      if (typeof jobComplete !== "undefined" && jobComplete === true) {
-        done = true
-      }
-    })
+    if (results) {
+      let done = false
 
-    return done
+      results.forEach(({ jobComplete }) => {
+        if (typeof jobComplete !== "undefined" && jobComplete === true) {
+          done = true
+        }
+      })
+
+      return done
+    }
   }
 
   return false
