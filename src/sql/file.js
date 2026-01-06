@@ -14,6 +14,7 @@
 
 const fs = require("fs")
 const path = require("path")
+const { BigQuery } = require("@google-cloud/bigquery")
 const { execute: executeText } = require("./text")
 
 /**
@@ -24,8 +25,8 @@ const { execute: executeText } = require("./text")
  * @param {object} params Execution parameters.
  * @returns {boolean} A value indicating whether the SQL script has been executed.
  */
-exports.execute = async (filepath, client, params = {}) =>
-  executeText(exports.read(filepath), client, params)
+exports.execute = async (filepath, client = null, params = {}) =>
+  executeText(exports.read(filepath), client ?? new BigQuery(), params)
 
 /**
  * Determines whether the given SQL script file exists.
@@ -57,15 +58,16 @@ exports.read = (filepath, encoding = "utf8") => {
  *
  * @param {string} base Base path.
  * @param {Array} files File names.
- * @param {object} params Execution parameters.
+ * @param {object} params Execution parame
+ * @param {BigQuery} client BigQuery client.ters.
  * @returns {boolean} A value indicating whether the SQL script has been executed.
  */
-exports.folder = async (base, files = [], params = {}) => {
+exports.folder = async (base, files = [], client = null, params = {}) => {
   const contents = new Set(fs.readdirSync(base))
   const allowed = files.filter((item) => contents.has(item))
   const sql = allowed
     .map((file) => fs.readFileSync(path.join(base, file)))
     .join("\n")
 
-  return executeText(sql, client, params)
+  return executeText(sql, client ?? new BigQuery(), params)
 }
