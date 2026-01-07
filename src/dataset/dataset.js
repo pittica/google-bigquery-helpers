@@ -63,15 +63,26 @@ exports.getDataset = async (dataset, options = {}) => {
 /**
  * Drops the tables in temporary dataset.
  *
+ * @param {string} dataset Dataset ID.
  * @param {string} regex Regular expression what matches table ID.
+ * @return {boolean} A value indicating whether the process has been done without errors.
  */
-exports.cleanDataset = async (regex = ".*") => {
-  const tables = await getTables()
+exports.cleanDataset = async (dataset, regex = ".*") => {
+  const tables = await getTables(dataset)
   const r = new RegExp(regex)
+  let done = true
 
   tables.forEach((table) => {
     if (r.test(table.id)) {
-      table.delete().then(() => log.success(`${table.id} deleted.`))
+      table
+        .delete()
+        .then(() => log.success(`${table.id} deleted.`))
+        .catch((error) => {
+          log.error(error)
+          done = false
+        })
     }
   })
+
+  return done
 }
