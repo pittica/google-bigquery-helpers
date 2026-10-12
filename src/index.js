@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+const { getClient } = require("./bigquery/client")
 const { dataset, getDataset, cleanDataset } = require("./dataset/dataset")
 const { toString } = require("./dataset/schema")
 const { table, getTables } = require("./dataset/table")
@@ -25,6 +26,7 @@ const { execute: executeSqlText } = require("./sql/text")
 const { jobDone, jobMetadata } = require("./bigquery/job")
 const { logErrors } = require("./bigquery/error")
 
+exports.getClient = getClient
 exports.dataset = dataset
 exports.getDataset = getDataset
 exports.cleanDataset = cleanDataset

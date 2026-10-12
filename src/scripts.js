@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const { BigQuery } = require("@google-cloud/bigquery")
+const { getClient } = require("./bigquery/client")
 const { getTables } = require("./dataset/table")
 
 /**
@@ -22,9 +22,7 @@ const { getTables } = require("./dataset/table")
  * @returns {Array} A list of dataset names.
  */
 exports.listDatasets = async (projectId) => {
-  const bigquery = new BigQuery({
-    projectId,
-  })
+  const bigquery = await getClient({ projectId })
   const [datasets] = await bigquery.getDatasets()
 
   return datasets.map(({ id }) => id)

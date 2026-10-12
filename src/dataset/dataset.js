@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const { BigQuery } = require("@google-cloud/bigquery")
+const { getClient } = require("../bigquery/client")
 const log = require("@pittica/logger-helpers")
 const { getTables } = require("./table")
 
@@ -50,7 +50,10 @@ exports.dataset = async (client, name, options = {}) => {
  */
 exports.getDataset = async (dataset, options = {}) => {
   if (typeof dataset === "string") {
-    const bigquery = new BigQuery()
+    const bigquery = getClient({
+      projectId: options.projectId,
+      keyFilename: options.keyFilename,
+    })
 
     const [ds] = await exports.dataset(bigquery, dataset, options)
 
@@ -65,10 +68,11 @@ exports.getDataset = async (dataset, options = {}) => {
  *
  * @param {string} dataset Dataset ID.
  * @param {string} regex Regular expression what matches table ID.
+ * @param {object} options The BigQuery client options.
  * @return {boolean} A value indicating whether the process has been done without errors.
  */
-exports.cleanDataset = async (dataset, regex = ".*") => {
-  const tables = await getTables(dataset)
+exports.cleanDataset = async (dataset, regex = ".*", options = {}) => {
+  const tables = await getTables(dataset, options)
   const r = new RegExp(regex)
   let done = true
 

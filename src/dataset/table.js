@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const { BigQuery } = require("@google-cloud/bigquery")
+const { getClient } = require("../bigquery/client")
 
 /**
  * Gets or create a table.
@@ -82,10 +82,11 @@ exports.table = async (dataset, name, options, keys) => {
  * Gets all tables the dataset.
  *
  * @param {string} id Dataset name.
+ * @param {object} options The BigQuery client options.
  * @returns {Array} Dataset object.
  */
-exports.getTables = async (id) => {
-  const bigquery = new BigQuery()
+exports.getTables = async (id, options = {}) => {
+  const bigquery = getClient(options)
 
   const [tables] = await bigquery.dataset(id).getTables()
 
