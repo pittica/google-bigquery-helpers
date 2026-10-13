@@ -15,7 +15,6 @@
 const path = require("path")
 const fs = require("fs")
 const { getTables } = require("./table")
-const { getDataset } = require("./dataset")
 
 /**
  * Converts the given schema to its string representation.
