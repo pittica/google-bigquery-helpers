@@ -1,14 +1,15 @@
 {
   "name": "@pittica/google-bigquery-helpers",
   "private": false,
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Helpers for Google Cloud BigQuery.",
   "main": "dist/index.js",
   "scripts": {
     "build": "rimraf ./dist && mkdirp ./dist && babel src --out-dir dist --copy-files",
     "test": "echo \"Error: no test specified\" && exit 1",
     "list-datasets": "npm run build && run-func ./dist/scripts.js listDatasets",
-    "list-tables": "npm run build && run-func ./dist/scripts.js listTables"
+    "list-tables": "npm run build && run-func ./dist/scripts.js listTables",
+    "download-schema": "npm run build && run-func ./dist/scripts.js downloadSchema"
   },
   "repository": {
     "type": "git",
@@ -30,7 +31,7 @@
     "node": ">=24.11.0"
   },
   "dependencies": {
-    "@google-cloud/bigquery": "^9.2.0",
+    "@google-cloud/bigquery": "^9.3.0",
     "@pittica/logger-helpers": "^1.2.2"
   },
   "devDependencies": {

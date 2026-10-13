@@ -12,6 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+const path = require("path")
+const fs = require("fs")
+const { getTables } = require("./table")
+const { getDataset } = require("./dataset")
+
 /**
  * Converts the given schema to its string representation.
  *
@@ -20,3 +25,43 @@
  */
 exports.toString = async (schema) =>
   schema.map(({ name, type }) => `${name}:${type}`).join(", ")
+
+/**
+ * Downloads the schema of a dataset.
+ *
+ * @param {string} output Path to save files.
+ * @param {string} datasetId BigQuery dataset ID.
+ * @param {object} options The BigQuery client options.
+ */
+exports.downloadSchema = async (output, datasetId, options = {}) => {
+  const tables = await getTables(datasetId, options)
+
+  tables.forEach(
+    async ({
+      dataset,
+      metadata: {
+        tableReference: { tableId },
+      },
+    }) => {
+      const [table] = await dataset.table(tableId).get()
+
+      const {
+        schema,
+        timePartitioning,
+        tableConstraints,
+        partitionDefinition,
+      } = table.metadata
+
+      fs.writeFileSync(
+        path.join(output, `${tableId}.json`),
+        JSON.stringify({
+          schema,
+          timePartitioning,
+          tableConstraints,
+          partitionDefinition,
+        }),
+        "utf8"
+      )
+    }
+  )
+}

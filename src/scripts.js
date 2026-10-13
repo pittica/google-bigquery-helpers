@@ -14,6 +14,7 @@
 
 const { getClient } = require("./bigquery/client")
 const { getTables } = require("./dataset/table")
+const { downloadSchema } = require("./dataset/schema")
 
 /**
  * Gets the datasets in the current or given project.
@@ -39,3 +40,13 @@ exports.listTables = async (id) => {
 
   return tables.map(({ id }) => id)
 }
+
+/**
+ * Downloads the schema of a dataset.
+ *
+ * @param {string} output Path to save files.
+ * @param {string} dataset BigQuery dataset ID.
+ * @param {string} projectId Optional project ID.
+ */
+exports.downloadSchema = async (output, dataset, projectId) =>
+  downloadSchema(output, dataset, { projectId })

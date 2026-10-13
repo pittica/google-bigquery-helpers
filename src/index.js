@@ -14,7 +14,7 @@
 
 const { getClient } = require("./bigquery/client")
 const { dataset, getDataset, cleanDataset } = require("./dataset/dataset")
-const { toString } = require("./dataset/schema")
+const { toString, downloadSchema } = require("./dataset/schema")
 const { table, getTables } = require("./dataset/table")
 const {
   execute: executeSqlFile,
@@ -40,6 +40,7 @@ exports.readSqlFile = read
 exports.jobDone = jobDone
 exports.jobMetadata = jobMetadata
 exports.logErrors = logErrors
+exports.downloadSchema = downloadSchema
 exports.schema = {
   toString,
 }
